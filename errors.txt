@@ -1,3 +1,4 @@
+2022-05-08 21:55:01.446038 -0400 EDT m=+1.376670484
 stat /Applications/Riot Client ().app: no such file or directory
 open /Library/Application Support/ApplePushService: permission denied
 open /Library/Application Support/com.apple.TCC: operation not permitted

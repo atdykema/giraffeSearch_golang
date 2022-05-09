@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 	"bufio"
+	"time"
 )
 
 var MAX_DEPTH int
@@ -57,6 +58,8 @@ func main(){
 		}
 
 		datawriter := bufio.NewWriter(file)
+
+		datawriter.WriteString(time.Now().String() + "\n")
 
 		for _, data := range output_message_err {
 			_, _ = datawriter.WriteString(data + "\n")
