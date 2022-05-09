@@ -14,15 +14,15 @@ import (
 
 var MAX_DEPTH int
 var output_message_err []string
-//var output_message_files []string
+var output_message_files []string
 var cGUI chan string
 var wg *sync.WaitGroup
 
 func init(){
 	//init config
-	MAX_DEPTH = 3
+	MAX_DEPTH = 5
 	output_message_err = make([]string, 0)
-	//output_message_files = make([]string, 0)
+	output_message_files = make([]string, 0)
 	cGUI = make(chan string)
 	wg = &sync.WaitGroup{}
 }
@@ -33,6 +33,8 @@ func main(){
 	pwd := "/" //allow manual input
 	count := 0
 	depth := 0 //allow manual input
+
+	fmt.Println("---")
 
 	wg.Add(1)
 	go startFileSearch(keyword, pwd, count, depth)
@@ -74,6 +76,42 @@ func main(){
 		}
 		*/
 	}
+
+
+	if len(output_message_files) == 0{
+		fmt.Println("No Results")
+	}else{
+		file, err := os.OpenFile("results.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+		if err != nil {
+			log.Fatalf("failed creating file: %s", err)
+		}
+
+		err = os.Truncate("results.txt", 0)
+
+		if err != nil {
+			log.Fatalf("failed truncating file: %s", err)
+		}
+
+		datawriter := bufio.NewWriter(file)
+
+		datawriter.WriteString(time.Now().String() + "\n")
+
+		for _, data := range output_message_files {
+			_, _ = datawriter.WriteString(data + "\n")
+		}
+	 
+		datawriter.Flush()
+		file.Close()
+
+		/*
+		for _, m := range output_message_err{
+			fmt.Println(m)
+		}
+		*/
+	}
+
+
 }
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
@@ -117,7 +155,7 @@ func callClear(){
 
 func getKeyword() (keyword string){
 	keyword = ""
-	fmt.Println("Enter keyword to search for: ")
+	fmt.Print("Enter keyword to search for: ")
 	fmt.Scanln(&keyword)
 
 	return keyword
@@ -187,7 +225,7 @@ func searchFile(keyword string, pwd string, count int, depth int){
 			//fmt.Println(curr_pwd)
 			if keyword == fstats.Name(){
 				//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
-				//output_message_files = append(output_message_files, curr_pwd)
+				output_message_files = append(output_message_files, curr_pwd)
 				cGUI <- curr_pwd
 
 			}else if fstats.IsDir(){
