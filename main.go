@@ -20,7 +20,7 @@ var wg *sync.WaitGroup
 
 func init(){
 	//init config
-	MAX_DEPTH = 5
+	MAX_DEPTH = 10
 	output_message_err = make([]string, 0)
 	output_message_files = make([]string, 0)
 	cGUI = make(chan string)
@@ -116,8 +116,9 @@ func main(){
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
 	//wg.Add(1)
-	searchFile(keyword, pwd, count, depth)
+	//	deepSearchFile(keyword, pwd, count, depth)
 	//wg.Done()
+	deepSearchFile(keyword, pwd, count, depth) //allow for manual input of shallow vs deep
 	//end := make([]string, 0)
 	//end = append(end, "END")
 	cGUI <- "END"
@@ -161,25 +162,30 @@ func getKeyword() (keyword string){
 	return keyword
 }
 
-func searchFile(keyword string, pwd string, count int, depth int){
+func logErr(err error){
+	message := strings.Split(err.Error(), ": ")
+	if message[len(message)-1] == "file name too long"{
+		output_message_err = append(output_message_err, err.Error())
+	}else if message[len(message)-1] == "no such file or directory"{
+		output_message_err = append(output_message_err, err.Error())
+	}else if message[len(message)-1] == "permission denied"{
+		output_message_err = append(output_message_err, err.Error())
+	}else if message[len(message)-1] == "operation not permitted"{
+		output_message_err = append(output_message_err, err.Error())
+	}else if message[len(message)-1] == "bad file descriptor"{
+		output_message_err = append(output_message_err, err.Error())
+	}else{
+		log.Fatal(err)
+	}
+}
+
+func deepSearchFile(keyword string, pwd string, count int, depth int){
 	
 	files, err := os.ReadDir(pwd)
 
 	if err != nil {
-		message := strings.Split(err.Error(), ": ")
-		if message[len(message)-1] == "permission denied"{
-			output_message_err = append(output_message_err, err.Error())
-			return
-		}else if message[len(message)-1] == "operation not permitted"{
-			output_message_err = append(output_message_err, err.Error())
-			return
-		}else if message[len(message)-1] == "bad file descriptor"{
-			output_message_err = append(output_message_err, err.Error())
-			return
-		}else{
-			log.Fatal(err)
-		}
-    	
+		logErr(err)
+		return
 	}
 
 	for _, f := range files {
@@ -195,50 +201,87 @@ func searchFile(keyword string, pwd string, count int, depth int){
 		if pwd != "/"{
 			extraSlash = "/"
 		}
-		//fmt.Println(2)
+
 		fstats, err := os.Stat(pwd + extraSlash + f.Name())
-		//fmt.Println(3)
+
 		if err != nil {
-			//fmt.Println(4)
-			message := strings.Split(err.Error(), ": ")
-			if message[len(message)-1] == "file name too long"{
-				continue
-			}else if message[len(message)-1] == "no such file or directory"{
-				output_message_err = append(output_message_err, err.Error())
-				continue
-			}else if message[len(message)-1] == "permission denied"{
-				output_message_err = append(output_message_err, err.Error())
-				continue
-			}else if message[len(message)-1] == "operation not permitted"{
-				output_message_err = append(output_message_err, err.Error())
-				continue
-			}else if message[len(message)-1] == "bad file descriptor"{
-				output_message_err = append(output_message_err, err.Error())
-				continue
-			}else{
-				//fmt.Println(5)
-				log.Fatal(err)
-			}
+			logErr(err)
+			continue
+
 		}else{
-			//fmt.Println(6)
+
 			curr_pwd := pwd + (extraSlash + fstats.Name())
-			//fmt.Println(curr_pwd)
+
 			if keyword == fstats.Name(){
 				//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
 				output_message_files = append(output_message_files, curr_pwd)
 				cGUI <- curr_pwd
 
 			}else if fstats.IsDir(){
-				//fmt.Println(7)
+
 				if depth > MAX_DEPTH{
 					continue
 				}
-				//fmt.Println(8)
-				searchFile(keyword, curr_pwd, count, depth+1)
+
+				deepSearchFile(keyword, curr_pwd, count, depth+1)
 			}
 		}
 	}
 
 }
+
+
+func shallowSearchFile(keyword string, pwd string, count int, depth int){
+	
+	files, err := os.ReadDir(pwd)
+
+	if err != nil {
+		logErr(err)
+		return
+	}
+
+	for _, f := range files {
+		//fmt.Println(1)
+
+		if f.Name()[0] == 46{ //dot
+			continue
+		}
+
+		count++
+		extraSlash := ""
+
+		if pwd != "/"{
+			extraSlash = "/"
+		}
+
+		fstats, err := os.Stat(pwd + extraSlash + f.Name())
+
+		if err != nil {
+			logErr(err)
+			continue
+
+		}else{
+
+			curr_pwd := pwd + (extraSlash + fstats.Name())
+
+			if keyword == fstats.Name(){
+				//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
+				output_message_files = append(output_message_files, curr_pwd)
+				cGUI <- curr_pwd
+
+			}else if fstats.IsDir(){
+
+				if depth > MAX_DEPTH{
+					continue
+				}
+
+				shallowSearchFile(keyword, curr_pwd, count, depth+1)
+			}
+		}
+	}
+
+}
+
+
 
 
