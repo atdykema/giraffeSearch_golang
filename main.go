@@ -17,14 +17,20 @@ var output_message_err []string
 var output_message_files []string
 var cGUI chan string
 var wg *sync.WaitGroup
+var stack []string
+var newStack []string
+var shallowDepth int
 
 func init(){
 	//init config
-	MAX_DEPTH = 10
+	MAX_DEPTH = 2
 	output_message_err = make([]string, 0)
 	output_message_files = make([]string, 0)
 	cGUI = make(chan string)
 	wg = &sync.WaitGroup{}
+	stack = []string{}
+	newStack = []string{}
+	shallowDepth = 0
 }
 
 func main(){
@@ -111,14 +117,37 @@ func main(){
 		*/
 	}
 
-
 }
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
-	//wg.Add(1)
-	//	deepSearchFile(keyword, pwd, count, depth)
-	//wg.Done()
-	deepSearchFile(keyword, pwd, count, depth) //allow for manual input of shallow vs deep
+
+	//deep activation
+	//deepSearchFile(keyword, pwd, count, depth)
+
+	//shallow activation
+
+	stack = append(stack, pwd)
+
+
+	for len(stack) != 0{
+		dir := stack[0]
+		stack = stack[1:]
+		shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
+	}
+	shallowDepth++
+
+	for len(newStack) != 0{
+		stack = make([]string, len(newStack))
+		copy(stack, newStack)
+		newStack = []string{}
+		for len(stack) != 0{
+			dir := stack[0]
+			stack = stack[1:]
+			shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
+		}
+		shallowDepth++
+	}
+
 	//end := make([]string, 0)
 	//end = append(end, "END")
 	cGUI <- "END"
@@ -231,17 +260,16 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 }
 
 
-func shallowSearchFile(keyword string, pwd string, count int, depth int){
+func shallowSearchFile(keyword string, pwd string, count int){
 	
 	files, err := os.ReadDir(pwd)
-
+	
 	if err != nil {
 		logErr(err)
 		return
 	}
 
 	for _, f := range files {
-		//fmt.Println(1)
 
 		if f.Name()[0] == 46{ //dot
 			continue
@@ -271,15 +299,13 @@ func shallowSearchFile(keyword string, pwd string, count int, depth int){
 
 			}else if fstats.IsDir(){
 
-				if depth > MAX_DEPTH{
+				if shallowDepth > MAX_DEPTH{
 					continue
 				}
-
-				shallowSearchFile(keyword, curr_pwd, count, depth+1)
+				newStack = append(newStack, curr_pwd)
 			}
 		}
 	}
-
 }
 
 
