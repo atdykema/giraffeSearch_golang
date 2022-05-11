@@ -10,9 +10,15 @@ import (
 	"sync"
 	"bufio"
 	"time"
+	"encoding/json"
 )
 
-var MAX_DEPTH int
+type Configuration struct {
+	CommandLineConfig bool
+	MAX_DEPTH int
+	SearchType int
+}
+
 var output_message_err []string
 var output_message_files []string
 var cGUI chan string
@@ -20,10 +26,24 @@ var wg *sync.WaitGroup
 var stack []string
 var newStack []string
 var shallowDepth int
+var configuration Configuration
+
+func init_config() Configuration{
+	file, _ := os.Open("./config/config.json")
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	configuration := Configuration{}
+	err := decoder.Decode(&configuration)
+	if err != nil {
+		fmt.Println("error:", err)
+		log.Fatal(err.Error())
+	}
+	return configuration
+}
 
 func init(){
 	//init config
-	MAX_DEPTH = 2
+	configuration = init_config()
 	output_message_err = make([]string, 0)
 	output_message_files = make([]string, 0)
 	cGUI = make(chan string)
@@ -34,7 +54,7 @@ func init(){
 }
 
 func main(){
-	
+	//TODO: printConfig() 
 	keyword := getKeyword()
 	pwd := "/" //allow manual input
 	count := 0
@@ -76,11 +96,6 @@ func main(){
 		datawriter.Flush()
 		file.Close()
 
-		/*
-		for _, m := range output_message_err{
-			fmt.Println(m)
-		}
-		*/
 	}
 
 
@@ -110,52 +125,49 @@ func main(){
 		datawriter.Flush()
 		file.Close()
 
-		/*
-		for _, m := range output_message_err{
-			fmt.Println(m)
-		}
-		*/
 	}
 }
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
 
-	//deep activation
-	//deepSearchFile(keyword, pwd, count, depth)
 
-	//shallow activation
+	if configuration.SearchType == 0{
 
-	stack = append(stack, pwd)
+		//deep activation
+		deepSearchFile(keyword, pwd, count, depth)
 
+	}else if configuration.SearchType == 1{
 
-	for len(stack) != 0{
-		dir := stack[0]
-		stack = stack[1:]
-		shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
-	}
-	shallowDepth++
+		//shallow activation
+		stack = append(stack, pwd)
 
-	for len(newStack) != 0{
-		stack = make([]string, len(newStack))
-		copy(stack, newStack)
-		newStack = []string{}
 		for len(stack) != 0{
 			dir := stack[0]
 			stack = stack[1:]
 			shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
 		}
 		shallowDepth++
+
+		for len(newStack) != 0{
+			stack = make([]string, len(newStack))
+			copy(stack, newStack)
+			newStack = []string{}
+			for len(stack) != 0{
+				dir := stack[0]
+				stack = stack[1:]
+				shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
+			}
+			shallowDepth++
+		}
 	}
 
-	//end := make([]string, 0)
-	//end = append(end, "END")
 	cGUI <- "END"
 
 	wg.Done()
 }
 
 func callCLIGUI(){
-	payload := <- cGUI
+	payload := ""
 	//for payload[0] != "END"{
 	for payload != "END"{
 		payload = <- cGUI
@@ -216,7 +228,6 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 	}
 
 	for _, f := range files {
-		//fmt.Println(1)
 
 		if f.Name()[0] == 46{ //dot
 			continue
@@ -246,7 +257,7 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 
 			}else if fstats.IsDir(){
 
-				if depth > MAX_DEPTH{
+				if depth > configuration.MAX_DEPTH{
 					continue
 				}
 
@@ -295,7 +306,7 @@ func shallowSearchFile(keyword string, pwd string, count int){
 
 			}else if fstats.IsDir(){
 
-				if shallowDepth > MAX_DEPTH{
+				if shallowDepth > configuration.MAX_DEPTH{
 					continue
 				}
 				newStack = append(newStack, curr_pwd)

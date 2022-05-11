@@ -1,5 +1,4 @@
-2022-05-11 01:21:02.197902 -0400 EDT m=+1.305326247
-/Users/andrewdykema/go
-/etc/paths.d/go
-/usr/local/go
-/private/etc/paths.d/go
+2022-05-11 03:57:31.597123 -0400 EDT m=+2.882477714
+/Users/andrewdykema
+/Volumes/Macintosh HD/Users/andrewdykema
+/System/Volumes/Data/Users/andrewdykema

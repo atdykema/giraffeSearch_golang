@@ -1,4 +1,4 @@
-2022-05-11 01:21:02.197367 -0400 EDT m=+1.304791209
+2022-05-11 03:57:31.59678 -0400 EDT m=+2.882135078
 stat /Applications/Riot Client ().app: no such file or directory
 stat /Library/python: no such file or directory
 open /home: operation not permitted
@@ -85,3 +85,102 @@ open /var/networkd/db: operation not permitted
 open /var/run/mds: permission denied
 open /var/spool/cups: permission denied
 open /var/spool/mqueue: permission denied
+open /System/Library/Caches/com.apple.coresymbolicationd: permission denied
+stat /System/Library/Frameworks/ExternalAccessory.framework/ExternalAccessory: no such file or directory
+stat /System/Library/Frameworks/Ruby.framework/Ruby: no such file or directory
+stat /System/Library/Frameworks/System.framework/System_asan: no such file or directory
+stat /System/Library/Frameworks/Tk.framework/tkConfig.sh: no such file or directory
+stat /System/Library/Frameworks/vecLib.framework/libBigNum.dylib: no such file or directory
+stat /System/Library/PrivateFrameworks/DuetRecommendation.framework/DuetRecommendation: no such file or directory
+stat /System/Library/PrivateFrameworks/InputContext.framework/InputContext: no such file or directory
+stat /System/Library/PrivateFrameworks/KeyboardServices.framework/KeyboardServices: no such file or directory
+stat /System/Library/PrivateFrameworks/LocationSupport.framework/Support: no such file or directory
+stat /System/Library/PrivateFrameworks/OfficeImport.framework/PlugIns: no such file or directory
+stat /System/Volumes/Data/Applications/Riot Client ().app: no such file or directory
+stat /System/Volumes/Data/Library/python: no such file or directory
+open /System/Volumes/Data/home: operation not permitted
+open /System/Volumes/Update/Controller: permission denied
+open /System/Volumes/Update/Hardware: permission denied
+stat /Volumes/Macintosh HD/Library/Caches/com.apple.aned: operation not permitted
+lstat /Volumes/Macintosh HD/dev/fd/3: bad file descriptor
+stat /Volumes/Macintosh HD/usr/lib/libhunspell-1.2.0.dylib: no such file or directory
+stat /Volumes/Macintosh HD/usr/lib/libiodbc.2.dylib: no such file or directory
+stat /Volumes/Macintosh HD/usr/lib/libiodbcinst.2.dylib: no such file or directory
+stat /Volumes/Macintosh HD/usr/lib/libstdc++.6.dylib: no such file or directory
+stat /Volumes/Macintosh HD/usr/sbin/weakpass_edit: permission denied
+open /Volumes/Macintosh HD/var/agentx: permission denied
+open /Volumes/Macintosh HD/var/audit: permission denied
+open /Volumes/Macintosh HD/var/backups: permission denied
+stat /Volumes/Macintosh HD/var/db/DifferentialPrivacy: operation not permitted
+open /Volumes/Macintosh HD/var/dirs_cleaner: permission denied
+open /Volumes/Macintosh HD/var/install: permission denied
+open /Volumes/Macintosh HD/var/jabberd: permission denied
+open /Volumes/Macintosh HD/var/ma: permission denied
+open /Volumes/Macintosh HD/var/root: permission denied
+open /private/etc/cups/certs: permission denied
+open /private/var/at/tabs: permission denied
+open /private/var/at/tmp: permission denied
+stat /private/var/db/ConfigurationProfiles/Store: operation not permitted
+open /private/var/db/CoreDuet: operation not permitted
+open /private/var/db/DumpPanic: operation not permitted
+stat /private/var/db/GPURestartReporter/current.gpuRestart: no such file or directory
+open /private/var/db/MobileIdentityService: operation not permitted
+open /private/var/db/Sandbox: operation not permitted
+open /private/var/db/Spotlight: operation not permitted
+open /private/var/db/Spotlight-V100: operation not permitted
+open /private/var/db/TokenCache: permission denied
+open /private/var/db/accessoryupdater: permission denied
+open /private/var/db/analyticsd: permission denied
+open /private/var/db/appinstalld: operation not permitted
+open /private/var/db/applepay: permission denied
+open /private/var/db/cmiodalassistants: permission denied
+open /private/var/db/com.apple.xpc.roleaccountd.staging: permission denied
+open /private/var/db/darwindaemon: permission denied
+open /private/var/db/datadetectors: permission denied
+open /private/var/db/dhcpclient: permission denied
+open /private/var/db/diskimagesiod: permission denied
+open /private/var/db/fpsd: permission denied
+open /private/var/db/geod: permission denied
+open /private/var/db/hidd: permission denied
+open /private/var/db/installcoordinationd: operation not permitted
+open /private/var/db/knowledgegraphd: permission denied
+open /private/var/db/locationd: permission denied
+open /private/var/db/lockdown: operation not permitted
+open /private/var/db/nearbyd: permission denied
+open /private/var/db/nsurlsessiond: permission denied
+open /private/var/db/oah: operation not permitted
+open /private/var/db/reportmemoryexception: permission denied
+open /private/var/db/rmd: permission denied
+open /private/var/db/searchparty: operation not permitted
+open /private/var/db/securityagent: permission denied
+open /private/var/db/sudo: permission denied
+open /private/var/db/timed: permission denied
+open /private/var/lib/postfix: permission denied
+open /private/var/networkd/Library: permission denied
+open /private/var/networkd/db: operation not permitted
+open /private/var/run/mds: permission denied
+open /private/var/spool/cups: permission denied
+open /private/var/spool/mqueue: permission denied
+open /usr/lib/cron/tabs: permission denied
+open /usr/lib/cron/tmp: permission denied
+open /var/db/ConfigurationProfiles/Setup: permission denied
+open /var/db/KernelExtensionManagement/Staging: operation not permitted
+open /var/db/caches/opendirectory: permission denied
+open /var/db/softwareupdate/Library: permission denied
+open /var/db/sysdiagnose/com.apple.sysdiagnose: operation not permitted
+open /var/protected/sfanalytics/FFFFEEEE-DDDD-CCCC-BBBB-AAAA00000059: permission denied
+open /var/protected/sfanalytics/FFFFEEEE-DDDD-CCCC-BBBB-AAAA000000CD: permission denied
+open /var/protected/trustd/private: operation not permitted
+open /var/spool/postfix/active: permission denied
+open /var/spool/postfix/bounce: permission denied
+open /var/spool/postfix/corrupt: permission denied
+open /var/spool/postfix/defer: permission denied
+open /var/spool/postfix/deferred: permission denied
+open /var/spool/postfix/flush: permission denied
+open /var/spool/postfix/hold: permission denied
+open /var/spool/postfix/incoming: permission denied
+open /var/spool/postfix/maildrop: permission denied
+open /var/spool/postfix/private: permission denied
+open /var/spool/postfix/public: permission denied
+open /var/spool/postfix/saved: permission denied
+open /var/spool/postfix/trace: permission denied
