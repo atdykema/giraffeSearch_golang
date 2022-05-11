@@ -1,11 +1,4 @@
-2022-05-11 13:16:52.867884 -0400 EDT m=+0.575835052
-/etc/csh.logout
-/etc/csh.logout~orig
-/tmp/com.google.Keystone
-/Users/andrewdykema/go
-/Users/andrewdykema/google-cloud-sdk
-/etc/paths.d/go
-/private/etc/csh.logout
-/private/etc/csh.logout~orig
-/private/tmp/com.google.Keystone
-/usr/local/go
+2022-05-11 13:27:28.117172 -0400 EDT m=+2.430424767
+/Users/andrewdykema
+/tmp/com.adobe.AdobeIPCBroker.ctrl-andrewdykema
+/private/tmp/com.adobe.AdobeIPCBroker.ctrl-andrewdykema

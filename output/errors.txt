@@ -1,4 +1,4 @@
-2022-05-11 13:16:52.867601 -0400 EDT m=+0.575552283
+2022-05-11 13:27:28.116811 -0400 EDT m=+2.430064413
 stat /Applications/Riot Client ().app: no such file or directory
 stat /Library/python: no such file or directory
 open /home: operation not permitted

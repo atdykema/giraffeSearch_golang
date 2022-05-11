@@ -6,11 +6,11 @@ import (
 	"os"
 	//"os/exec"
 	//"strconv"
+	"bufio"
+	"encoding/json"
 	"strings"
 	"sync"
-	"bufio"
 	"time"
-	"encoding/json"
 )
 
 type Configuration struct {
@@ -18,12 +18,13 @@ type Configuration struct {
 	MAX_DEPTH int
 	SearchType int
 	ExactMatch bool
+	PrintConfigOnSearch bool
 }
 
 //!!!!!!!!!!!!!!!!!!!!
 
 //TODO: add printout of config when executable activated, possibility configurable
-//TODO: allow search for file type, last modification, keyword contained somewhere in name w/ configurable "exact or not" option
+//TODO: allow search for file type, last modification
 
 
 var output_message_err []string
@@ -61,7 +62,16 @@ func init(){
 }
 
 func main(){
-	//TODO: printConfig() 
+	
+	if configuration.PrintConfigOnSearch{
+		fmt.Println("Config:")
+		fmt.Println("CommandLineConfig: ", configuration.CommandLineConfig)
+		fmt.Println("MAX_DEPTH: ", configuration.MAX_DEPTH)
+		fmt.Println("SearchType: ", configuration.SearchType)
+		fmt.Println("ExactMatch: ", configuration.ExactMatch)
+		fmt.Println("PrintConfigOnSearch: ", configuration.PrintConfigOnSearch)
+	}
+
 	keyword := getKeyword()
 	pwd := "/" //allow manual input
 	count := 0

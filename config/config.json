@@ -2,5 +2,6 @@
     "CommandLineConfig": false,
     "MAX_DEPTH": 3,
     "SearchType": 1,
-    "ExactMatch": false
+    "ExactMatch": false,
+    "PrintConfigOnSearch": false
 }
