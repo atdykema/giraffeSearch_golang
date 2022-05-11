@@ -19,6 +19,7 @@ type Configuration struct {
 	SearchType int
 	ExactMatch bool
 	PrintConfigOnSearch bool
+	PrintResults bool
 }
 
 //!!!!!!!!!!!!!!!!!!!!
@@ -179,7 +180,7 @@ func startFileSearch(keyword string, pwd string, count int, depth int){
 			shallowSearchFile(keyword, dir, count) //allow for manual input of shallow vs deep
 		}
 		shallowDepth++
-
+		
 		for len(newStack) != 0{
 			stack = make([]string, len(newStack))
 			copy(stack, newStack)
@@ -202,7 +203,10 @@ func callCLIGUI(){
 	//for payload[0] != "END"{
 	for payload != "END"{
 		payload = <- cGUI
-		fmt.Println(payload)
+		
+		if configuration.PrintResults{
+			fmt.Println(payload)
+		}
 		/*
 		for _, ele := range payload{
 			fmt.Println(ele)
