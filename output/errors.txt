@@ -1,0 +1,87 @@
+2022-05-11 01:21:02.197367 -0400 EDT m=+1.304791209
+stat /Applications/Riot Client ().app: no such file or directory
+stat /Library/python: no such file or directory
+open /home: operation not permitted
+stat /usr/X11: no such file or directory
+stat /usr/X11R6: no such file or directory
+stat /Library/Caches/com.apple.aned: operation not permitted
+stat /dev/fd/3: bad file descriptor
+stat /dev/fd/4: bad file descriptor
+stat /usr/lib/libhunspell-1.2.0.dylib: no such file or directory
+stat /usr/lib/libiodbc.2.dylib: no such file or directory
+stat /usr/lib/libiodbcinst.2.dylib: no such file or directory
+stat /usr/lib/libstdc++.6.dylib: no such file or directory
+stat /usr/sbin/weakpass_edit: permission denied
+open /var/agentx: permission denied
+open /var/audit: permission denied
+open /var/backups: permission denied
+stat /var/db/DifferentialPrivacy: operation not permitted
+open /var/dirs_cleaner: permission denied
+open /var/install: permission denied
+open /var/jabberd: permission denied
+open /var/ma: permission denied
+open /var/root: permission denied
+open /Library/Application Support/ApplePushService: permission denied
+open /Library/Application Support/com.apple.TCC: operation not permitted
+open /Library/Caches/com.apple.iconservices.store: permission denied
+stat /System/Library/Caches/com.apple.factorydata: no such file or directory
+stat /System/Library/PrivateFrameworks/MobileStoreDemoKit.framework: no such file or directory
+stat /Volumes/Macintosh HD/Applications/Riot Client ().app: no such file or directory
+stat /Volumes/Macintosh HD/Library/python: no such file or directory
+open /Volumes/Macintosh HD/home: operation not permitted
+stat /Volumes/Macintosh HD/usr/X11: no such file or directory
+stat /Volumes/Macintosh HD/usr/X11R6: no such file or directory
+open /etc/cups/certs: permission denied
+open /private/var/agentx: permission denied
+open /private/var/audit: permission denied
+open /private/var/backups: permission denied
+stat /private/var/db/DifferentialPrivacy: operation not permitted
+open /private/var/dirs_cleaner: permission denied
+open /private/var/install: permission denied
+open /private/var/jabberd: permission denied
+open /private/var/ma: permission denied
+open /private/var/root: permission denied
+open /usr/sbin/authserver: permission denied
+open /var/at/tabs: permission denied
+open /var/at/tmp: permission denied
+stat /var/db/ConfigurationProfiles/Store: operation not permitted
+open /var/db/CoreDuet: operation not permitted
+open /var/db/DumpPanic: operation not permitted
+stat /var/db/GPURestartReporter/current.gpuRestart: no such file or directory
+open /var/db/MobileIdentityService: operation not permitted
+open /var/db/Sandbox: operation not permitted
+open /var/db/Spotlight: operation not permitted
+open /var/db/Spotlight-V100: operation not permitted
+open /var/db/TokenCache: permission denied
+open /var/db/accessoryupdater: permission denied
+open /var/db/analyticsd: permission denied
+open /var/db/appinstalld: operation not permitted
+open /var/db/applepay: permission denied
+open /var/db/cmiodalassistants: permission denied
+open /var/db/com.apple.xpc.roleaccountd.staging: permission denied
+open /var/db/darwindaemon: permission denied
+open /var/db/datadetectors: permission denied
+open /var/db/dhcpclient: permission denied
+open /var/db/diskimagesiod: permission denied
+open /var/db/fpsd: permission denied
+open /var/db/geod: permission denied
+open /var/db/hidd: permission denied
+open /var/db/installcoordinationd: operation not permitted
+open /var/db/knowledgegraphd: permission denied
+open /var/db/locationd: permission denied
+open /var/db/lockdown: operation not permitted
+open /var/db/nearbyd: permission denied
+open /var/db/nsurlsessiond: permission denied
+open /var/db/oah: operation not permitted
+open /var/db/reportmemoryexception: permission denied
+open /var/db/rmd: permission denied
+open /var/db/searchparty: operation not permitted
+open /var/db/securityagent: permission denied
+open /var/db/sudo: permission denied
+open /var/db/timed: permission denied
+open /var/lib/postfix: permission denied
+open /var/networkd/Library: permission denied
+open /var/networkd/db: operation not permitted
+open /var/run/mds: permission denied
+open /var/spool/cups: permission denied
+open /var/spool/mqueue: permission denied

@@ -1,0 +1,5 @@
+2022-05-11 01:21:02.197902 -0400 EDT m=+1.305326247
+/Users/andrewdykema/go
+/etc/paths.d/go
+/usr/local/go
+/private/etc/paths.d/go

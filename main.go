@@ -53,13 +53,13 @@ func main(){
 	if len(output_message_err) == 0{
 		fmt.Println("No Errors")
 	}else{
-		file, err := os.OpenFile("errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		file, err := os.OpenFile("./output/errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 		if err != nil {
 			log.Fatalf("failed creating file: %s", err)
 		}
 
-		err = os.Truncate("errors.txt", 0)
+		err = os.Truncate("./output/errors.txt", 0)
 
 		if err != nil {
 			log.Fatalf("failed truncating file: %s", err)
@@ -87,13 +87,13 @@ func main(){
 	if len(output_message_files) == 0{
 		fmt.Println("No Results")
 	}else{
-		file, err := os.OpenFile("results.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		file, err := os.OpenFile("./output/results.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 		if err != nil {
 			log.Fatalf("failed creating file: %s", err)
 		}
 
-		err = os.Truncate("results.txt", 0)
+		err = os.Truncate("./output/results.txt", 0)
 
 		if err != nil {
 			log.Fatalf("failed truncating file: %s", err)
@@ -116,7 +116,6 @@ func main(){
 		}
 		*/
 	}
-
 }
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
@@ -172,7 +171,6 @@ func callCLIGUI(){
 	close(cGUI)
 
 	wg.Done()
-
 }
 
 /*
@@ -256,9 +254,7 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 			}
 		}
 	}
-
 }
-
 
 func shallowSearchFile(keyword string, pwd string, count int){
 	
