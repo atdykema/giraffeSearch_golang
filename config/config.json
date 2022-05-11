@@ -1,7 +1,7 @@
 {
     "CommandLineConfig": false,
-    "MAX_DEPTH": 3,
-    "SearchType": 1,
+    "MAX_DEPTH": 10,
+    "SearchType": 0,
     "ExactMatch": false,
-    "PrintConfigOnSearch": false
+    "PrintConfigOnSearch": true
 }

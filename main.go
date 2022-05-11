@@ -23,18 +23,19 @@ type Configuration struct {
 
 //!!!!!!!!!!!!!!!!!!!!
 
-//TODO: add printout of config when executable activated, possibility configurable
 //TODO: allow search for file type, last modification
 
 
 var output_message_err []string
 var output_message_files []string
 var cGUI chan string
-var wg *sync.WaitGroup
+var wg_main *sync.WaitGroup
+var wg_deep *sync.WaitGroup
 var stack []string
 var newStack []string
 var shallowDepth int
 var configuration Configuration
+//var mutex_search sync.Mutex
 
 func init_config() Configuration{
 	file, _ := os.Open("./config/config.json")
@@ -55,7 +56,8 @@ func init(){
 	output_message_err = make([]string, 0)
 	output_message_files = make([]string, 0)
 	cGUI = make(chan string)
-	wg = &sync.WaitGroup{}
+	wg_main = &sync.WaitGroup{}
+	wg_deep = &sync.WaitGroup{}
 	stack = []string{}
 	newStack = []string{}
 	shallowDepth = 0
@@ -73,19 +75,28 @@ func main(){
 	}
 
 	keyword := getKeyword()
+
+	initTime := time.Now()
+
+
 	pwd := "/" //allow manual input
 	count := 0
 	depth := 0 //allow manual input
 
 	fmt.Println("---")
 
-	wg.Add(1)
+	wg_main.Add(1)
 	go startFileSearch(keyword, pwd, count, depth)
 
-	wg.Add(1)
+	wg_main.Add(1)
 	go callCLIGUI()
 	
-	wg.Wait()
+	wg_main.Wait()
+
+	elapsedTime := time.Since(initTime)
+	fmt.Println("Time elasped: ", elapsedTime)
+	output_message_files = append(output_message_files, "Time elapsed: " + elapsedTime.String())
+	output_message_err = append(output_message_err, "Time elapsed: " + elapsedTime.String())
 
 	if len(output_message_err) == 0{
 		fmt.Println("No Errors")
@@ -151,7 +162,11 @@ func startFileSearch(keyword string, pwd string, count int, depth int){
 	if configuration.SearchType == 0{
 
 		//deep activation
+		wg_deep.Add(1)
+		
 		deepSearchFile(keyword, pwd, count, depth)
+
+		wg_deep.Wait()
 
 	}else if configuration.SearchType == 1{
 
@@ -177,10 +192,9 @@ func startFileSearch(keyword string, pwd string, count int, depth int){
 			shallowDepth++
 		}
 	}
-
 	cGUI <- "END"
 
-	wg.Done()
+	wg_main.Done()
 }
 
 func callCLIGUI(){
@@ -196,10 +210,9 @@ func callCLIGUI(){
 		*/
 
 	}
-
 	close(cGUI)
 
-	wg.Done()
+	wg_main.Done()
 }
 
 /*
@@ -241,6 +254,7 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 
 	if err != nil {
 		logErr(err)
+		wg_deep.Done()
 		return
 	}
 
@@ -287,13 +301,15 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 			
 			if fstats.IsDir(){
 
-				if depth > configuration.MAX_DEPTH{
+				if depth >= configuration.MAX_DEPTH-1{
 					continue
 				}
-				deepSearchFile(keyword, curr_pwd, count, depth+1)
+				wg_deep.Add(1)
+				go deepSearchFile(keyword, curr_pwd, count, depth+1)
 			}
 		}
 	}
+	wg_deep.Done()
 }
 
 func shallowSearchFile(keyword string, pwd string, count int){
@@ -354,6 +370,7 @@ func shallowSearchFile(keyword string, pwd string, count int){
 				newStack = append(newStack, curr_pwd)
 			}
 		}
+
 	}
 }
 
