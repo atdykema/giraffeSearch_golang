@@ -17,7 +17,14 @@ type Configuration struct {
 	CommandLineConfig bool
 	MAX_DEPTH int
 	SearchType int
+	ExactMatch bool
 }
+
+//!!!!!!!!!!!!!!!!!!!!
+
+//TODO: add printout of config when executable activated, possibility configurable
+//TODO: allow search for file type, last modification, keyword contained somewhere in name w/ configurable "exact or not" option
+
 
 var output_message_err []string
 var output_message_files []string
@@ -250,17 +257,29 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 
 			curr_pwd := pwd + (extraSlash + fstats.Name())
 
-			if keyword == fstats.Name(){
-				//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
-				output_message_files = append(output_message_files, curr_pwd)
-				cGUI <- curr_pwd
+			if configuration.ExactMatch{
 
-			}else if fstats.IsDir(){
+				if keyword == fstats.Name(){
+					//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
+					output_message_files = append(output_message_files, curr_pwd)
+					cGUI <- curr_pwd
+				}
+
+			}else if !configuration.ExactMatch{
+
+				if strings.Contains(fstats.Name(), keyword){
+					//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
+					output_message_files = append(output_message_files, curr_pwd)
+					cGUI <- curr_pwd
+				}
+				
+			}
+			
+			if fstats.IsDir(){
 
 				if depth > configuration.MAX_DEPTH{
 					continue
 				}
-
 				deepSearchFile(keyword, curr_pwd, count, depth+1)
 			}
 		}
@@ -299,14 +318,27 @@ func shallowSearchFile(keyword string, pwd string, count int){
 
 			curr_pwd := pwd + (extraSlash + fstats.Name())
 
-			if keyword == fstats.Name(){
-				//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
-				output_message_files = append(output_message_files, curr_pwd)
-				cGUI <- curr_pwd
+			if configuration.ExactMatch{
 
-			}else if fstats.IsDir(){
+				if keyword == fstats.Name(){
+					//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
+					output_message_files = append(output_message_files, curr_pwd)
+					cGUI <- curr_pwd
+				}
 
-				if shallowDepth > configuration.MAX_DEPTH{
+			}else if !configuration.ExactMatch{
+
+				if strings.Contains(fstats.Name(), keyword){
+					//output_message_files[0] = ("Files searched: " + strconv.Itoa(count))
+					output_message_files = append(output_message_files, curr_pwd)
+					cGUI <- curr_pwd
+				}
+
+			}
+			
+			if fstats.IsDir(){
+
+				if shallowDepth >= configuration.MAX_DEPTH-1{
 					continue
 				}
 				newStack = append(newStack, curr_pwd)
