@@ -11,6 +11,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"runtime"
 )
 
 type Configuration struct {
@@ -36,6 +37,7 @@ var stack []string
 var newStack []string
 var shallowDepth int
 var configuration Configuration
+//var cc int = 0
 //var mutex_search sync.Mutex
 
 func init_config() Configuration{
@@ -62,17 +64,20 @@ func init(){
 	stack = []string{}
 	newStack = []string{}
 	shallowDepth = 0
+
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 }
 
 func main(){
 	
 	if configuration.PrintConfigOnSearch{
 		fmt.Println("Config:")
-		fmt.Println("CommandLineConfig: ", configuration.CommandLineConfig)
-		fmt.Println("MAX_DEPTH: ", configuration.MAX_DEPTH)
-		fmt.Println("SearchType: ", configuration.SearchType)
-		fmt.Println("ExactMatch: ", configuration.ExactMatch)
-		fmt.Println("PrintConfigOnSearch: ", configuration.PrintConfigOnSearch)
+		fmt.Println("\tCommandLineConfig: ", configuration.CommandLineConfig)
+		fmt.Println("\tMAX_DEPTH: ", configuration.MAX_DEPTH)
+		fmt.Println("\tSearchType: ", configuration.SearchType)
+		fmt.Println("\tExactMatch: ", configuration.ExactMatch)
+		fmt.Println("\tPrintConfigOnSearch: ", configuration.PrintConfigOnSearch)
 	}
 
 	keyword := getKeyword()
@@ -158,8 +163,7 @@ func main(){
 }
 
 func startFileSearch(keyword string, pwd string, count int, depth int){
-
-
+	
 	if configuration.SearchType == 0{
 
 		//deep activation
@@ -203,7 +207,7 @@ func callCLIGUI(){
 	//for payload[0] != "END"{
 	for payload != "END"{
 		payload = <- cGUI
-		
+
 		if configuration.PrintResults{
 			fmt.Println(payload)
 		}
@@ -258,6 +262,10 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 
 	if err != nil {
 		logErr(err)
+		/*
+		cc--
+		fmt.Println(cc)
+		*/
 		wg_deep.Done()
 		return
 	}
@@ -292,6 +300,7 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 					output_message_files = append(output_message_files, curr_pwd)
 					cGUI <- curr_pwd
 				}
+				
 
 			}else if !configuration.ExactMatch{
 
@@ -309,10 +318,18 @@ func deepSearchFile(keyword string, pwd string, count int, depth int){
 					continue
 				}
 				wg_deep.Add(1)
+				/*
+				cc++
+				fmt.Println(cc)
+				*/
 				go deepSearchFile(keyword, curr_pwd, count, depth+1)
 			}
 		}
 	}
+	/*
+	cc--
+	fmt.Println(cc)
+	*/
 	wg_deep.Done()
 }
 
