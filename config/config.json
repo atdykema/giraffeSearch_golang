@@ -4,5 +4,6 @@
     "SearchType": 0,
     "ExactMatch": false,
     "PrintConfigOnSearch": true,
-    "PrintResults": false
+    "PrintResults": false,
+    "ImageEnabled": true
 }
