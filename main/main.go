@@ -12,6 +12,7 @@ import (
 	"runtime"
 	"github.com/atdykema/file_explorer_go/imageSearch"
 	"github.com/atdykema/file_explorer_go/logging"
+	"github.com/atdykema/file_explorer_go/testing"
 	"path/filepath"
 )
 
@@ -41,7 +42,6 @@ var configuration Configuration
 
 func initConfig() Configuration{
 	absPath, _ := filepath.Abs("../config/config.json")
-	fmt.Println(absPath)
 	file, _ := os.Open(absPath)
 	
 	decoder := json.NewDecoder(file)
@@ -77,6 +77,9 @@ func init(){
 }
 
 func main(){
+
+	testing.Main_test()
+
 	if configuration.PrintConfigOnSearch{
 		fmt.Println("Config:")
 		fmt.Println("\tCommandLineConfig: ", configuration.CommandLineConfig)
